@@ -1,48 +1,67 @@
 package ec.edu.puce.githubclient.ui.screens
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import ec.edu.ec.edu.puce.githubclient.ui.components.RepoItem
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ec.edu.puce.githubclient.ui.components.RepoItem
+import ec.edu.puce.githubclient.viewmodels.RepoListViewModel
+
+@Composable
+fun RepoLs(
+    modifier: Modifier = Modifier,
+    viewModel: RepoListViewModel = viewModel()
+) {
+
+    val repos by viewModel.repos.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMsg by viewModel.errMsg.collectAsState()
+
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+
+        errorMsg?.let {
+            Text(
+                text = it,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(16.dp)
+            )
+        }
+
+        if (!isLoading && errorMsg == null) {
+
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+
+                items(repos) { repo ->
+                    RepoItem(repository = repo)
+                }
+            }
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
-fun RepoList(
-    modifier: Modifier = Modifier
-) {
-
-    Column(
-        modifier = modifier
-    ) {
-
-        RepoItem(
-            name = "Repositorio de Android",
-            description = "Repositorio creado en desarrollo movil",
-            avatarUrl = "https://icon-icons.com/download-file?file=https%3A%2F%2Fimages.icon-icons.com%2F2415%2FPNG%2F256%2Fandroid_original_wordmark_logo_icon_146654.png&id=146654&pack_or_individual=pack",
-            language = "Kotlin"
-        )
-
-        RepoItem(
-            name = "Repositorio de Django",
-            description = "Repositorio creado en desarrollo movil",
-            avatarUrl = "https://e7.pngegg.com/pngimages/159/366/png-clipart-django-python-computer-icons-logo-python-text-label-thumbnail.png",
-            language = "Kotlin"
-        )
-
-        RepoItem(
-            name = "Repositorio de React",
-            description = "Repositorio creado en desarrollo movil",
-            avatarUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR-IEdVMz6l9i4mpwSqUiyU25QW0PXU_h1Ig&s",
-            language = "Kotlin"
-        )
-
-        RepoItem(
-            name = "Repositorio de Colibri",
-            description = "Repositorio creado en desarrollo movil",
-            avatarUrl = "https://img.freepik.com/vector-premium/logotipo-hummingbird_215413-53.jpg",
-            language = "Kotlin"
-        )
-
-    }
+fun RepoLsPreview() {
+    RepoLs()
 }
