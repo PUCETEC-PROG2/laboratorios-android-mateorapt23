@@ -24,10 +24,6 @@ class MainActivity : ComponentActivity() {
                     RepoList(
                         modifier = Modifier.padding(paddingValues = innerPadding)
                     )
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
                 }
             }
         }
