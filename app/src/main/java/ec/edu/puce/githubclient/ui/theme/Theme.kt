@@ -1,6 +1,5 @@
 package ec.edu.puce.githubclient.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -13,17 +12,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = PuceBlue,
+    primary = PuceTeal,
     secondary = PurpleGrey80,
-    tertiary = PuceTeal,
+    tertiary = PuceBlue,
     primaryContainer = PuceTeal,
     onPrimaryContainer = Color.White
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = PuceBlue,
+    primary = PuceTeal,
     secondary = PurpleGrey40,
-    tertiary = PuceTeal,
+    tertiary = PuceBlue,
     primaryContainer = PuceTeal,
     onPrimaryContainer = Color.White
 
@@ -42,7 +41,7 @@ private val LightColorScheme = lightColorScheme(
 fun GithubClientTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
