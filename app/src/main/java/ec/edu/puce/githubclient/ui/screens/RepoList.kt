@@ -20,10 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ec.edu.puce.githubclient.models.Repository
 import ec.edu.puce.githubclient.ui.components.RepoItem
 import ec.edu.puce.githubclient.viewmodels.RepoListViewModel
 import androidx.compose.material3.Text
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import ec.edu.puce.githubclient.ui.theme.GithubClientTheme
 
@@ -31,7 +31,8 @@ import ec.edu.puce.githubclient.ui.theme.GithubClientTheme
 fun RepoList(
     modifier: Modifier = Modifier,
     viewModel: RepoListViewModel = viewModel(),
-    onNavigateToForm: () -> Unit = {}
+    onNavigateToForm: () -> Unit = {},
+    onNavigateToEdit: (Repository) -> Unit = {}
 ) {
     val repos by viewModel.repos.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
@@ -77,7 +78,10 @@ fun RepoList(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     items(count = repos.size) { i ->
-                        RepoItem(repository = repos[i])
+                        RepoItem(
+                            repository = repos[i],
+                            onEditClick = { repo -> onNavigateToEdit(repo) }
+                        )
                     }
                 }
             }
